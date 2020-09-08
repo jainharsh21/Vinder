@@ -11,9 +11,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(require('cors')());
 app.use('/',require('./route'))
 
-const client = new Pool(creds)
 
-app.listen(process.env.PORT,async()=>{
-    console.log(`Server Started on port ${process.env.PORT}`)
+app.listen(process.env.PORT,()=>{
+    const client = new Pool(creds)
+    app.locals.db = client;
+    console.log(`Server running on port ${process.env.PORT}`)
 })
 

@@ -3,7 +3,7 @@ module.exports.getAllUsers = async (req, res) => {
     const { db } = req.app.locals;
     const data = await db.query("SELECT * FROM users");
     console.log(data);
-    res.send("lol");
+    res.send(data.rows);
   } catch (err) {
     console.log(err);
     res

@@ -7,6 +7,7 @@ const {
   getAllStudentChapters,
   addStudentChapter,
 } = require("./controllers/student_chapter");
+const {addMate} = require('./controllers/mates');
 
 const { addFeedbackQuestions,addFeedbackAnswer } = require('./controllers/feedback')
 
@@ -19,6 +20,7 @@ router.get("/attendees/:event_id", getAllAttendeesFromEvent);
 router.post("/users", addUser);
 router.post("/student_chapters", addStudentChapter);
 router.post("/attendees", addAttendee);
-router.post('/feedback',addFeedbackQuestions);
-router.post('/answer',addFeedbackAnswer)
+router.post('/feedbacks',addFeedbackQuestions);
+router.post('/answers',addFeedbackAnswer)
+router.post('/mates',addMate)
 module.exports = router;

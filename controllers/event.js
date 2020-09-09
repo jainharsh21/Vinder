@@ -16,7 +16,7 @@ module.exports.addEvent = async (req,res)=>{
         const data = await db.query(`INSERT INTO public.events(
             chp_id, name, summary, description, date, imageurl)
             VALUES (${req.body.chpid},'${req.body.name}', '${req.body.summary}', '${req.body.description}', '${req.body.time}', '${req.body.imgUrl}')`)
-            console.log(data)
+            // console.log(data)
             res.send({message:"Event added"})
     }catch(err){
         console.log(err)

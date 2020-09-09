@@ -8,6 +8,8 @@ const {
   addStudentChapter,
 } = require("./controllers/student_chapter");
 
+const { addFeedbackQuestions,addFeedbackAnswer } = require('./controllers/feedback')
+
 router.get("/events", getAllEvents);
 router.get('/events/:chpid',getEventOfChpt);
 router.post('/events',addEvent);
@@ -17,5 +19,6 @@ router.get("/attendees/:event_id", getAllAttendeesFromEvent);
 router.post("/users", addUser);
 router.post("/student_chapters", addStudentChapter);
 router.post("/attendees", addAttendee);
-
+router.post('/feedback',addFeedbackQuestions);
+router.post('/answer',addFeedbackAnswer)
 module.exports = router;

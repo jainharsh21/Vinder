@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
 const { getAllEvents,addEvent,getEventOfChpt } = require("./controllers/event");
-const { getAllUsers, addUser } = require("./controllers/user");
+const { getAllUsers, addUser,login } = require("./controllers/user");
 const {addAttendee,getAllAttendeesFromEvent} = require("./controllers/attendee");
 const {
   getAllStudentChapters,
@@ -18,6 +18,7 @@ router.get("/users", getAllUsers);
 router.get("/student_chapters", getAllStudentChapters);
 router.get("/attendees/:event_id", getAllAttendeesFromEvent);
 router.post("/users", addUser);
+router.post('/login',login)
 router.post("/student_chapters", addStudentChapter);
 router.post("/attendees", addAttendee);
 router.post('/feedbacks',addFeedbackQuestions);

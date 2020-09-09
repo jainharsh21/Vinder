@@ -1,5 +1,4 @@
 const { hash, compare } = require("bcryptjs");
-const {generateToken} = require('../jwtHelper')
 
 module.exports.getAllStudentChapters = async (req, res) => {
   try {
@@ -22,11 +21,9 @@ module.exports.addStudentChapter = async (req, res) => {
     const hashPass = await hash(req.body.password, 2);
     const data = await db.query(`INSERT INTO public.student_chapter(
         name, description, password, imageurl)
-        VALUES ('${req.body.name}', '${req.body.description}', '${hashPass}', '${req.body.imageurl}') 
-        RETURNING id;`);
-    delete req.body.password
-    const token = generateToken({id:data.rows.id,...req.body})
-    res.send({token});
+        VALUES ('${req.body.name}', '${req.body.description}', '${req.body.password}', '${req.body.imageUrl}');`);
+    console.log(data);
+    res.send(req.body);
   } catch (err) {
     console.log(err);
     res.status(500).send({

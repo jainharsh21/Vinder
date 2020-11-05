@@ -48,7 +48,7 @@ module.exports.login = async (req, res) => {
       delete req.body.password;
       return res.send({ data: userData.rows });
     }
-    res.status(400).send({ message: "Unauthorized" });
+    res.status(400).send({ message: "Unauthorized", status: false });
   } catch (err) {
     console.log(err);
     res.status(500).send({

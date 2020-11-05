@@ -17,6 +17,7 @@ module.exports.getAllUsers = async (req, res) => {
 
 module.exports.addUser = async (req, res) => {
   try {
+    console.log(req.body);
     const { db } = req.app.locals;
     const hashPass = await hash(req.body.password, 2);
     const data = await db.query(`INSERT INTO public.users(

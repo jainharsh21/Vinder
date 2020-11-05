@@ -3,15 +3,15 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
+import { Link } from "react-router-dom";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import CopyRight from "./CopyRight";
-import { Switch } from "@material-ui/core";
+import { FormControlLabel, Radio, RadioGroup, Switch } from "@material-ui/core";
 
 const AntSwitch = withStyles((theme) => ({
   root: {
@@ -70,7 +70,48 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
   const classes = useStyles();
 
-  const [checkedC, setCheckedC] = useState(false);
+  const [checkedC, setCheckedC] = useState(true);
+  const [name, setName] = useState("");
+  const [attr, setAttr] = useState("");
+  const [password, setPassword] = useState("");
+  const [gender, setGender] = useState("");
+
+  const handleSubmit = async () => {
+    let route = checkedC ? "users" : "student_chapters";
+
+    let student_body = {
+      name,
+      password,
+      email: attr,
+      bio: "",
+      imageUrl: "",
+      sex: gender,
+    };
+    let chapter_body = {
+      name,
+      description: attr,
+      password,
+      imageUrl: "",
+    };
+    try {
+      const data = await fetch(`http://localhost:4000/${route}`, {
+        method: "POST",
+        body: checkedC
+          ? JSON.stringify(student_body)
+          : JSON.stringify(chapter_body),
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => res.json())
+        .catch((e) => console.log(e));
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleChange = (event) => {
+    setGender(event.target.value);
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -82,7 +123,7 @@ export default function SignUp() {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography component="div">
@@ -107,6 +148,8 @@ export default function SignUp() {
             <Grid item xs={12}>
               <TextField
                 autoComplete="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 name="name"
                 variant="outlined"
                 required
@@ -119,6 +162,8 @@ export default function SignUp() {
             {checkedC ? (
               <Grid item xs={12}>
                 <TextField
+                  value={attr}
+                  onChange={(e) => setAttr(e.target.value)}
                   variant="outlined"
                   required
                   fullWidth
@@ -131,6 +176,8 @@ export default function SignUp() {
             ) : (
               <Grid item xs={12}>
                 <TextField
+                  value={attr}
+                  onChange={(e) => setAttr(e.target.value)}
                   variant="outlined"
                   required
                   fullWidth
@@ -142,8 +189,37 @@ export default function SignUp() {
                 />
               </Grid>
             )}
+            {checkedC ? (
+              <Grid item xs={12}>
+                <RadioGroup
+                  row
+                  aria-label="gender"
+                  name="gender1"
+                  value={gender}
+                  onChange={handleChange}
+                >
+                  <FormControlLabel
+                    value="M"
+                    control={<Radio />}
+                    label="Male"
+                  />
+                  <FormControlLabel
+                    value="F"
+                    control={<Radio />}
+                    label="Female"
+                  />
+                  <FormControlLabel
+                    value="O"
+                    control={<Radio />}
+                    label="Other"
+                  />
+                </RadioGroup>
+              </Grid>
+            ) : null}
             <Grid item xs={12}>
               <TextField
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 variant="outlined"
                 required
                 fullWidth
@@ -161,17 +237,18 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleSubmit}
           >
             Sign Up
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link to="/" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
           </Grid>
-        </form>
+        </>
       </div>
       <Box mt={5}>
         <CopyRight />

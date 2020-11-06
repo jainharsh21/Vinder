@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { NeuCard } from "neumorphic-ui";
-import { Menu, IconButton, Typography } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
 
 import { ExitToApp, MenuSharp } from "@material-ui/icons";
-import { yellow } from "@material-ui/core/colors";
 
 const styles = {
   navContainer: {
@@ -14,19 +13,6 @@ const styles = {
 };
 
 function Navbar() {
-  const [hovered, setHovered] = useState(false);
-  const [clicked, setClicked] = useState(false);
-
-  const onClick = () => {
-    setClicked(true);
-  };
-  const mouseOver = () => {
-    setClicked(!clicked);
-    setHovered(true);
-  };
-  const mouseOut = () => {
-    setHovered(false);
-  };
   return (
     <NeuCard width="100%" height="12vh">
       <div

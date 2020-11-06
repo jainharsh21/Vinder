@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NeuCard } from "neumorphic-ui";
+import { Card } from "ui-neumorphism";
 import { IconButton } from "@material-ui/core";
 
 import { ExitToApp, MenuSharp } from "@material-ui/icons";
@@ -14,7 +14,7 @@ const styles = {
 
 function Navbar() {
   return (
-    <NeuCard width="100%" height="12vh">
+    <Card>
       <div
         style={{
           fontFamily: "Lobster",
@@ -30,7 +30,7 @@ function Navbar() {
           <ExitToApp />
         </IconButton>
       </div>
-    </NeuCard>
+    </Card>
   );
 }
 

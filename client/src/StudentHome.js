@@ -1,8 +1,8 @@
 import React from "react";
-import { NeuCard } from "neumorphic-ui";
+import { Card } from "ui-neumorphism";
 import Navbar from "./Navbar";
 import "./Navbar.css";
-import img1 from "./assets/csi.png";
+import img1 from "./assets/itsa.png";
 import { IconButton, Typography } from "@material-ui/core";
 import { ChevronLeft, ChevronRight } from "@material-ui/icons";
 
@@ -12,7 +12,6 @@ function StudentHome() {
       <Navbar />
       <div
         style={{
-          width: "100%",
           height: "88vh",
           display: "flex",
           alignItems: "center",
@@ -22,20 +21,18 @@ function StudentHome() {
         <IconButton>
           <ChevronLeft />
         </IconButton>
-        <NeuCard width="350px" height="400px">
-          <img alt="hello" width="100%" height="75%" src={img1} />
+        <Card width={380} height={450}>
+          <img style = {{paddingTop : "20px"}} alt="hello" src={img1} width = "90%" height = "80%" />
           <Typography
             style={{
-              paddingTop: "8px",
+              padding: "8px",
               fontFamily: "Turret Road",
-              fontSize: "14px",
+              fontSize: "13px",
             }}
           >
-            We hope to see you at the next industry event or tradeshow! Stop by
-            our booth to learn more about CSI's product innovations and to meet
-            our business ...
+            ITSA stands for Information technology students association, it is a committee created by the students for the students in order to empower their skills 
           </Typography>
-        </NeuCard>
+        </Card>
         <IconButton>
           <ChevronRight />
         </IconButton>

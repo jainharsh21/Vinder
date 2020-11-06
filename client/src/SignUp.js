@@ -1,8 +1,14 @@
 import React, { useState } from "react";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
+import {
+  Card,
+  TextField,
+  Radio,
+  RadioGroup,
+  Button,
+  Switch,
+  IconButton,
+} from "ui-neumorphism";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import { Link } from "react-router-dom";
 import Box from "@material-ui/core/Box";
@@ -11,7 +17,6 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import CopyRight from "./CopyRight";
-import { FormControlLabel, Radio, RadioGroup, Switch } from "@material-ui/core";
 
 const AntSwitch = withStyles((theme) => ({
   root: {
@@ -53,6 +58,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    paddingLeft: "10px",
+    paddingRight: "10px",
   },
   avatar: {
     margin: theme.spacing(1),
@@ -71,26 +78,24 @@ export default function SignUp() {
   const classes = useStyles();
 
   const [checkedC, setCheckedC] = useState(true);
-  const [name, setName] = useState("");
-  const [attr, setAttr] = useState("");
-  const [password, setPassword] = useState("");
-  const [gender, setGender] = useState("");
+
+  const [gender, setGender] = useState("M");
 
   const handleSubmit = async () => {
     let route = checkedC ? "users" : "student_chapters";
 
     let student_body = {
-      name,
-      password,
-      email: attr,
+      name: document.getElementById("name").value,
+      password: document.getElementById("password").value,
+      email: document.getElementById("attr").value,
       bio: "",
       imageUrl: "",
       sex: gender,
     };
     let chapter_body = {
-      name,
-      description: attr,
-      password,
+      name: document.getElementById("name").value,
+      description: document.getElementById("attr").value,
+      password: document.getElementById("password").value,
       imageUrl: "",
     };
     try {
@@ -110,146 +115,163 @@ export default function SignUp() {
   };
 
   const handleChange = (event) => {
-    setGender(event.target.value);
+    setGender(event.value);
   };
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Typography component="div">
-                <Grid
-                  component="label"
-                  container
-                  alignItems="center"
-                  spacing={1}
-                >
-                  <Grid item>Student Chapter</Grid>
-                  <Grid item>
-                    <AntSwitch
-                      checked={checkedC}
-                      onChange={() => setCheckedC(!checkedC)}
-                      name="checkedC"
+      <Card width={400} height={470}>
+        <div className={classes.paper}>
+          <div style={{ padding: "8px" }}>
+            <IconButton
+              rounded
+              text={false}
+              color="var(--error)"
+              style={{ padding: "8px" }}
+            >
+              <LockOutlinedIcon />
+            </IconButton>
+          </div>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography component="div">
+                  <Grid
+                    component="label"
+                    container
+                    alignItems="center"
+                    spacing={1}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "100%",
+                        paddingTop: "10px",
+                        paddingBottom: "10px",
+                      }}
+                    >
+                      <Grid item>Student Chapter</Grid>
+                      <Grid item>
+                        <AntSwitch
+                          checked={checkedC}
+                          onChange={() => setCheckedC(!checkedC)}
+                          name="checkedC"
+                        />
+                      </Grid>
+                      <Grid item>Student</Grid>
+                    </div>
+                  </Grid>
+                </Typography>
+              </Grid>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  width: "100%",
+                }}
+              >
+                <Grid item xs={12}>
+                  <TextField
+                    width={300}
+                    autoComplete="name"
+                    value=""
+                    name="name"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="name"
+                    label="Name"
+                    autoFocus
+                  />
+                </Grid>
+                {checkedC ? (
+                  <Grid item xs={12}>
+                    <TextField
+                      width={300}
+                      value=""
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="attr"
+                      label="Email Address"
+                      name="email"
+                      autoComplete="email"
                     />
                   </Grid>
-                  <Grid item>Student</Grid>
+                ) : (
+                  <Grid item xs={12}>
+                    <TextField
+                      width={300}
+                      value={""}
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="attr"
+                      label="Description"
+                      name="description"
+                      autoComplete="description"
+                      multiline
+                    />
+                  </Grid>
+                )}
+
+                <Grid item xs={12}>
+                  <TextField
+                    width={300}
+                    value=""
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                  />
                 </Grid>
-              </Typography>
+              </div>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                name="name"
-                variant="outlined"
-                required
-                fullWidth
-                id="name"
-                label="Name"
-                autoFocus
-              />
-            </Grid>
-            {checkedC ? (
-              <Grid item xs={12}>
-                <TextField
-                  value={attr}
-                  onChange={(e) => setAttr(e.target.value)}
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-            ) : (
-              <Grid item xs={12}>
-                <TextField
-                  value={attr}
-                  onChange={(e) => setAttr(e.target.value)}
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="description"
-                  label="Description"
-                  name="description"
-                  autoComplete="description"
-                  multiline
-                />
-              </Grid>
-            )}
             {checkedC ? (
               <Grid item xs={12}>
                 <RadioGroup
-                  row
-                  aria-label="gender"
-                  name="gender1"
-                  value={gender}
+                  value="M"
+                  color="var(--primary)"
                   onChange={handleChange}
                 >
-                  <FormControlLabel
-                    value="M"
-                    control={<Radio />}
-                    label="Male"
-                  />
-                  <FormControlLabel
-                    value="F"
-                    control={<Radio />}
-                    label="Female"
-                  />
-                  <FormControlLabel
-                    value="O"
-                    control={<Radio />}
-                    label="Other"
-                  />
+                  <Radio value="M" label="Male" />
+                  <Radio value="F" label="Female" />
+                  <Radio value="O" label="Other" />
                 </RadioGroup>
               </Grid>
             ) : null}
-            <Grid item xs={12}>
-              <TextField
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                variant="outlined"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={handleSubmit}
+            >
+              Sign Up
+            </Button>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <Link to="/" variant="body2" style={{ color: "black" }}>
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
             </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={handleSubmit}
-          >
-            Sign Up
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link to="/" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
-        </>
-      </div>
+          </>
+        </div>
+      </Card>
       <Box mt={5}>
         <CopyRight />
       </Box>

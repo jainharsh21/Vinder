@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, Button, IconButton, TextField } from "ui-neumorphism";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { Link } from "react-router-dom";
@@ -33,22 +33,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  const [attr, setAttr] = useState("");
-  const [password, setPassword] = useState("");
 
   const handleSubmit = async () => {
     let student_body = {
-      email: attr,
-      password,
+      email: document.getElementById("attr").value,
+      password: document.getElementById("password").value,
     };
     let chapter_body = {
-      name: attr,
-      password,
+      name: document.getElementById("attr").value,
+      password: document.getElementById("password").value,
     };
+    console.log(document.getElementById("attr").value);
     try {
       const data = await fetch(`http://localhost:4000/login`, {
         method: "POST",
-        body: attr.includes("@")
+        body: document.getElementById("attr").value.includes("@")
           ? JSON.stringify(student_body)
           : JSON.stringify(chapter_body),
         headers: { "Content-Type": "application/json" },
@@ -89,12 +88,11 @@ export default function SignIn() {
           <TextField
             style={{ paddingBottom: "10px" }}
             width={300}
-            value={attr}
-            onChange={(e) => setAttr(e.target.value)}
+            value=""
+            id="attr"
             variant="outlined"
             margin="normal"
             required
-            id="email/name"
             label="Email Address/Name"
             name="email/name"
             autoComplete="email"
@@ -102,15 +100,14 @@ export default function SignIn() {
           />
           <TextField
             width={300}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value=""
+            id="password"
             variant="outlined"
             margin="normal"
             required
             name="password"
             label="Password"
             type="password"
-            id="password"
             autoComplete="current-password"
           />
           <Button

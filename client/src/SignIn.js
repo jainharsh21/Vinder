@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
+import { Card, Button, IconButton, TextField } from "ui-neumorphism";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
@@ -15,6 +13,7 @@ import CopyRight from "./CopyRight";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
+    padding: "15px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -64,64 +63,78 @@ export default function SignIn() {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container
+      style={{ backgroundColors: "yellow" }}
+      component="main"
+      maxWidth="xs"
+    >
       <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <TextField
-          value={attr}
-          onChange={(e) => setAttr(e.target.value)}
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          id="email/name"
-          label="Email Address/Name"
-          name="email/name"
-          autoComplete="email"
-          autoFocus
-        />
-        <TextField
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-        />
-        <Button
-          onClick={handleSubmit}
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-        >
-          Sign In
-        </Button>
-        <Grid container>
-          <Grid item xs>
-            <Link href="#" variant="body2">
-              Forgot password?
-            </Link>
+      <Card width={400} height={400}>
+        <div className={classes.paper}>
+          <IconButton
+            style={{ padding: "8px" }}
+            rounded
+            text={false}
+            color="var(--error)"
+          >
+            <LockOutlinedIcon />
+          </IconButton>
+          <Typography
+            style={{ paddingTop: "10px", paddingBottom: "15px" }}
+            component="h1"
+            variant="h5"
+          >
+            Sign in
+          </Typography>
+          <TextField
+            style={{ paddingBottom: "10px" }}
+            width={300}
+            value={attr}
+            onChange={(e) => setAttr(e.target.value)}
+            variant="outlined"
+            margin="normal"
+            required
+            id="email/name"
+            label="Email Address/Name"
+            name="email/name"
+            autoComplete="email"
+            autoFocus
+          />
+          <TextField
+            width={300}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            variant="outlined"
+            margin="normal"
+            required
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+          />
+          <Button
+            onClick={handleSubmit}
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Sign In
+          </Button>
+          <Grid container style={{ paddingTop: "30px" }}>
+            <Grid item xs>
+              <Link href="#" variant="body2"></Link>
+            </Grid>
+            <Grid item>
+              <Link to="/signup" style={{ color: "black" }} variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Link to="/signup" variant="body2">
-              {"Don't have an account? Sign Up"}
-            </Link>
-          </Grid>
-        </Grid>
-      </div>
+        </div>
+      </Card>
       <Box mt={8}>
         <CopyRight />
       </Box>

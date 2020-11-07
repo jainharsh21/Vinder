@@ -9,6 +9,7 @@ import { useTransition, animated } from "react-spring";
 function StudentHome() {
   const [data, setEventData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isLeftClicked, setIsLeftClicked] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -31,11 +32,34 @@ function StudentHome() {
   }, []);
 
   const [index, set] = React.useState(0);
-  const onClick = React.useCallback(() => set((state) => (state + 1) % 3), []);
+  const onClick = React.useCallback(() => {
+    setIsLeftClicked(false);
+    set((state) => (state + 1) % 3);
+  }, []);
+  const onLeftClick = React.useCallback(() => {
+    setIsLeftClicked(true);
+    if (index === 0) set(data.length - 1);
+    else set((state) => state - 1);
+  }, [index, data]);
   const transitions = useTransition(index, (p) => p, {
-    from: { opacity: 0, transform: "translate3d(100%,0,0)" },
-    enter: { opacity: 1, transform: "translate3d(-4%,0,0)" },
-    leave: { opacity: 0, transform: "translate3d(-50%,0,0)" },
+    from: {
+      opacity: 0,
+      transform: !isLeftClicked
+        ? "translate3d(100%,0,0)"
+        : "translate3d(0,0,0)",
+    },
+    enter: {
+      opacity: 1,
+      transform: !isLeftClicked
+        ? "translate3d(-4%,0,0)"
+        : "translate3d(4%,0,0)",
+    },
+    leave: {
+      opacity: 0,
+      transform: !isLeftClicked
+        ? "translate3d(-50%,0,0)"
+        : "translate3d(50%,0,0)",
+    },
   });
 
   return !loading ? (
@@ -52,6 +76,7 @@ function StudentHome() {
         <IconButton
           rounded
           text={false}
+          onClick={onLeftClick}
           color="black"
           style={{ padding: "8px" }}
         >
@@ -60,7 +85,7 @@ function StudentHome() {
         {transitions.map(({ item, props, key }) => {
           console.log(data[item]);
           const Page = data[item];
-          return <Page key={key} style = {props} />;
+          return <Page key={key} style={props} />;
         })}
         <IconButton
           rounded

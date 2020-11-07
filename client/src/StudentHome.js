@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IconButton } from "ui-neumorphism";
 import Navbar from "./Navbar";
 import "./Navbar.css";
@@ -7,23 +7,26 @@ import EventCard from "./EventCard";
 import { useTransition, animated } from "react-spring";
 
 function StudentHome() {
-  const pages = [
-    ({ style }) => (
-      <animated.div style={{ ...style, background: "lightpink" }}>
-        <EventCard />
-      </animated.div>
-    ),
-    ({ style }) => (
-      <animated.div style={{ ...style, background: "lightblue" }}>
-        <EventCard />
-      </animated.div>
-    ),
-    ({ style }) => (
-      <animated.div style={{ ...style, background: "lightgreen" }}>
-        <EventCard />
-      </animated.div>
-    ),
-  ];
+  const [data, setEventData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      const data = await fetch("http://localhost:4000/events", {
+        method: "GET",
+      })
+        .then((res) => res.json())
+        .catch((e) => console.log(e));
+      console.log(data.data);
+      setEventData(data.data);
+      setLoading(false);
+    })();
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
+
   const [index, set] = React.useState(0);
   const onClick = React.useCallback(() => set((state) => (state + 1) % 3), []);
   const transitions = useTransition(index, (p) => p, {
@@ -31,7 +34,8 @@ function StudentHome() {
     enter: { opacity: 1, transform: "translate3d(-4%,0,0)" },
     leave: { opacity: 0, transform: "translate3d(-50%,0,0)" },
   });
-  return (
+
+  return !loading ? (
     <div>
       <Navbar />
       <div
@@ -51,8 +55,11 @@ function StudentHome() {
           <ChevronLeft />
         </IconButton>
         {transitions.map(({ item, props, key }) => {
-          const Page = pages[item];
-          return <Page key={key} style={props} />;
+          return ({ style }) => (
+            <animated.div style={{ ...props, background: "lightpink" }}>
+              <EventCard eventData={data[0]} />
+            </animated.div>
+          );
         })}
         <IconButton
           rounded
@@ -65,6 +72,8 @@ function StudentHome() {
         </IconButton>
       </div>
     </div>
+  ) : (
+    <> Loading </>
   );
 }
 

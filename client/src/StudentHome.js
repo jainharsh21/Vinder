@@ -18,14 +18,17 @@ function StudentHome() {
         .then((res) => res.json())
         .catch((e) => console.log(e));
       console.log(data.data);
-      setEventData(data.data);
+      const temp = data.data.map((c) => {
+        return ({ style }) => (
+          <animated.div style={{ ...style }}>
+            <EventCard eventData={c} />
+          </animated.div>
+        );
+      });
+      setEventData(temp);
       setLoading(false);
     })();
   }, []);
-
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
 
   const [index, set] = React.useState(0);
   const onClick = React.useCallback(() => set((state) => (state + 1) % 3), []);
@@ -55,11 +58,9 @@ function StudentHome() {
           <ChevronLeft />
         </IconButton>
         {transitions.map(({ item, props, key }) => {
-          return ({ style }) => (
-            <animated.div style={{ ...props, background: "lightpink" }}>
-              <EventCard eventData={data[0]} />
-            </animated.div>
-          );
+          console.log(data[item]);
+          const Page = data[item];
+          return <Page key={key} style = {props} />;
         })}
         <IconButton
           rounded

@@ -1,10 +1,9 @@
 import React from "react";
-import { Card } from "ui-neumorphism";
+import { IconButton } from "ui-neumorphism";
 import Navbar from "./Navbar";
 import "./Navbar.css";
-import img1 from "./assets/itsa.png";
-import { IconButton, Typography } from "@material-ui/core";
 import { ChevronLeft, ChevronRight } from "@material-ui/icons";
+import EventCard from "./EventCard";
 
 function StudentHome() {
   return (
@@ -18,22 +17,21 @@ function StudentHome() {
           justifyContent: "space-evenly",
         }}
       >
-        <IconButton>
+        <IconButton
+          rounded
+          text={false}
+          color="black"
+          style={{ padding: "8px" }}
+        >
           <ChevronLeft />
         </IconButton>
-        <Card width={380} height={450}>
-          <img style = {{paddingTop : "20px"}} alt="hello" src={img1} width = "90%" height = "80%" />
-          <Typography
-            style={{
-              padding: "8px",
-              fontFamily: "Turret Road",
-              fontSize: "13px",
-            }}
-          >
-            ITSA stands for Information technology students association, it is a committee created by the students for the students in order to empower their skills 
-          </Typography>
-        </Card>
-        <IconButton>
+        <EventCard />
+        <IconButton
+          rounded
+          text={false}
+          color="black"
+          style={{ padding: "8px" }}
+        >
           <ChevronRight />
         </IconButton>
       </div>

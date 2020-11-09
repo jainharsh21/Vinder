@@ -19,9 +19,8 @@ function StudentHome(props) {
       const data = await fetch("http://localhost:4000/events", {
         method: "GET",
       })
-        .then((res) => res.json())
-        .catch((e) => console.log(e));
-      console.log(data.data);
+      .then((res) => res.json())
+      .catch((e) => console.log(e));
       const temp = data.data.map((c) => {
         return ({ style }) => (
           <animated.div style={{ ...style }}>
@@ -32,6 +31,7 @@ function StudentHome(props) {
       setEventData(temp);
       setLoading(false);
     })();
+    // eslint-disable-next-line
   }, []);
 
   const [index, set] = React.useState(0);

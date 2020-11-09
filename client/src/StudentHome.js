@@ -6,12 +6,15 @@ import { ChevronLeft, ChevronRight } from "@material-ui/icons";
 import EventCard from "./EventCard";
 import { useTransition, animated } from "react-spring";
 
-function StudentHome() {
+function StudentHome(props) {
   const [data, setEventData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isLeftClicked, setIsLeftClicked] = useState(false);
 
   useEffect(() => {
+    if (!window.localStorage.getItem("userData")) {
+      props.history.replace("/");
+    }
     (async () => {
       const data = await fetch("http://localhost:4000/events", {
         method: "GET",

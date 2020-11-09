@@ -38,14 +38,14 @@ module.exports.login = async (req, res) => {
   try {
     const { db } = req.app.locals;
     const { email, password, name } = req.body;
-    const sql = `SELECT id,password FROM ${
+    const sql = `SELECT id,password,name,email,bio,sex,imageurl FROM ${
       email ? "users" : "student_chapter"
     } WHERE ${email ? "email=" : "name="}'${email ? email : name}'`;
     const userData = await db.query(sql);
     console.log(userData);
     const doesPassMatch = await compare(password, userData.rows[0].password);
     if (doesPassMatch) {
-      delete req.body.password;
+      delete userData.rows[0].password;
       return res.send({ data: userData.rows });
     }
     res.status(400).send({ message: "Unauthorized", status: false });

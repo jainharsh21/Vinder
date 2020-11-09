@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+export default function SignIn(props) {
   const classes = useStyles();
 
   const handleSubmit = async () => {
@@ -54,8 +54,15 @@ export default function SignIn() {
       })
         .then((res) => res.json())
         .catch((e) => console.log(e));
-      console.log(data);
-      if (data.status === false) alert("You have entered incorrect details.");
+      console.log(data.data);
+      if (data.status === false) {
+        alert("You have entered incorrect details.");
+        return;
+      }
+      window.localStorage.setItem("userData", JSON.stringify(data.data[0]));
+      if (data.data[0].email) {
+        props.history.replace("/student_home");
+      }
     } catch (error) {
       console.log(error);
     }

@@ -63,6 +63,9 @@ export default function SignIn(props) {
       if (data.data[0].email) {
         props.history.replace("/student_home");
       }
+      if (data.data[0].description) {
+        props.history.replace("/student_chapter_home");
+      }
     } catch (error) {
       console.log(error);
     }

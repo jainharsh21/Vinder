@@ -38,7 +38,7 @@ module.exports.login = async (req, res) => {
   try {
     const { db } = req.app.locals;
     const { email, password, name } = req.body;
-    const sql = `SELECT id,password,name,email,bio,sex,imageurl FROM ${
+    const sql = `SELECT id,password,name,${email ? 'email,bio,sex' : 'description'},imageurl FROM ${
       email ? "users" : "student_chapter"
     } WHERE ${email ? "email=" : "name="}'${email ? email : name}'`;
     const userData = await db.query(sql);

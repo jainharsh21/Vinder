@@ -4,6 +4,7 @@ import "./App.css";
 import SignUp from "./SignUp";
 import StudentHome from "./StudentHome";
 import StudentChapterHome from "./StudentChapterHome";
+import AdminHome from "./AdminHome";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           path="/student_chapter_home"
           component={StudentChapterHome}
         ></Route>
+        <Route exact path="/admin_home" component={AdminHome} />
       </Switch>
     </div>
   );

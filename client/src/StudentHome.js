@@ -37,8 +37,8 @@ function StudentHome(props) {
   const [index, set] = React.useState(0);
   const onClick = React.useCallback(() => {
     setIsLeftClicked(false);
-    set((state) => (state + 1) % 3);
-  }, []);
+    set((state) => (state + 1) % data.length);
+  }, [data]);
   const onLeftClick = React.useCallback(() => {
     setIsLeftClicked(true);
     if (index === 0) set(data.length - 1);

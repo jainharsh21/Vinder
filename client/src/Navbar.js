@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card } from "ui-neumorphism";
 import { IconButton } from "@material-ui/core";
 
@@ -12,7 +12,12 @@ const styles = {
   },
 };
 
-function Navbar() {
+function Navbar({ history }) {
+  const logout = () => {
+    window.localStorage.clear();
+    history.replace("/");
+  };
+
   return (
     <Card>
       <div
@@ -26,7 +31,7 @@ function Navbar() {
           <MenuSharp />
         </IconButton>
         <span>Vinder</span>
-        <IconButton>
+        <IconButton onClick={logout}>
           <ExitToApp />
         </IconButton>
       </div>

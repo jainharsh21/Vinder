@@ -67,7 +67,7 @@ function StudentHome(props) {
 
   return !loading ? (
     <div>
-      <Navbar />
+      <Navbar history={props.history} />
       <div
         style={{
           height: "88vh",

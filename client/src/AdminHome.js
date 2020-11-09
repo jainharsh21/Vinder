@@ -5,6 +5,14 @@ const AdminHome = (props) => {
     if (!window.localStorage.getItem("isAdmin")) {
       props.history.replace("/");
     }
+    (async () => {
+      const data = await fetch("http://localhost:4000/student_chapters", {
+        method: "GET",
+      })
+        .then((res) => res.json())
+        .catch((e) => console.log(e));
+      console.log(data);
+    })();
   });
   return (
     <>

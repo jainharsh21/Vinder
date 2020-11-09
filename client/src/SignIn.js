@@ -119,7 +119,6 @@ export default function SignIn(props) {
           />
           <Button
             onClick={handleSubmit}
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"
@@ -129,7 +128,7 @@ export default function SignIn(props) {
           </Button>
           <Grid container style={{ paddingTop: "30px" }}>
             <Grid item xs>
-              <Link href="#" variant="body2"></Link>
+              <Link to="#" variant="body2"></Link>
             </Grid>
             <Grid item>
               <Link to="/signup" style={{ color: "black" }} variant="body2">

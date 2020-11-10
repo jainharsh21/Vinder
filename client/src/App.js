@@ -5,6 +5,7 @@ import SignUp from "./SignUp";
 import StudentHome from "./StudentHome";
 import StudentChapterHome from "./StudentChapterHome";
 import AdminHome from "./AdminHome";
+import AddEventForm from "./AddEventForm";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           component={StudentChapterHome}
         ></Route>
         <Route exact path="/admin_home" component={AdminHome} />
+        <Route exact path="/add_event" component={AddEventForm} />
       </Switch>
     </div>
   );

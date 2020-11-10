@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Fab } from "ui-neumorphism";
 import MiniEventCard from "./MiniEventCard";
 
 const { default: Navbar } = require("./Navbar");
@@ -25,7 +26,9 @@ function StudentChapterHome(props) {
     <>
       <Navbar history={props.history} />
       <div style={{ padding: "8px" }}>
-        <h2 style={{ fontFamily: "Turret Road", fontSize: "20px" }}>OUR EVENTS</h2>
+        <h2 style={{ fontFamily: "Turret Road", fontSize: "20px" }}>
+          OUR EVENTS
+        </h2>
       </div>
       <div
         style={{
@@ -34,11 +37,21 @@ function StudentChapterHome(props) {
           display: "flex",
           justifyContent: "space-evenly",
           alignItems: "center",
+          flexWrap: "wrap",
         }}
       >
         {events.map((e) => (
           <MiniEventCard event={e} key={e.eventid} />
         ))}
+      </div>
+      <div>
+        <Fab
+          size="large"
+          right
+          style={{ position: "absolute", top: "80%", right: "10%" }}
+        >
+          <span style={{ fontSize: "30px", marginBottom: "4px" }}>&#43;</span>
+        </Fab>
       </div>
     </>
   );

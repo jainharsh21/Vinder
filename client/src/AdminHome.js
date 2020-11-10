@@ -27,7 +27,8 @@ const AdminHome = (props) => {
           justifyContent: "space-evenly",
           alignContent: "center",
           width: "100%",
-          padding : "20px"
+          padding : "20px",
+          flexWrap : "wrap",
         }}
       >
         {chapters.map((c) => (

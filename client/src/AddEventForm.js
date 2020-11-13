@@ -25,11 +25,14 @@ function AddEventForm(props) {
     [hiddenFileInput]
   );
 
-  const handleChange = useCallback((event) => {
-    const fileUploaded = event.target.files[0];
-    previewer(fileUploaded);
-    setFile(fileUploaded);
-  }, [previewer]);
+  const handleChange = useCallback(
+    (event) => {
+      const fileUploaded = event.target.files[0];
+      previewer(fileUploaded);
+      setFile(fileUploaded);
+    },
+    [previewer]
+  );
 
   useEffect(() => {
     const userData = JSON.parse(window.localStorage.getItem("userData"));
@@ -81,10 +84,11 @@ function AddEventForm(props) {
           />
           {src !== "#" ? (
             <img
+              style={{ padding: "10px 0px 10px 0px" }}
               id="blah"
               height={225}
               width={225}
-              alt = "helloooooooooooooooo"
+              alt="helloooooooooooooooo"
               src={src}
             />
           ) : null}

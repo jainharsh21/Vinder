@@ -1,7 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Button, Card, Fab, TextArea, TextField } from "ui-neumorphism";
 
 function AddEventForm(props) {
+  const [file, setFile] = useState([]);
+  const [src, setSrc] = useState("#");
+  const hiddenFileInput = useRef(null);
+
+  const previewer = useCallback((input) => {
+    var reader = new FileReader();
+
+    reader.onload = function (e) {
+      // document.getElementById("blah").src = e.target.result;
+      setSrc(e.target.result);
+      // $("#blah").attr("src", e.target.result);
+    };
+
+    reader.readAsDataURL(input);
+  }, []);
+
+  const handleClick = useCallback(
+    (event) => {
+      hiddenFileInput.current.click();
+    },
+    [hiddenFileInput]
+  );
+
+  const handleChange = useCallback((event) => {
+    const fileUploaded = event.target.files[0];
+    previewer(fileUploaded);
+    setFile(fileUploaded);
+  }, [previewer]);
+
   useEffect(() => {
     const userData = JSON.parse(window.localStorage.getItem("userData"));
     console.log(userData);
@@ -12,7 +41,7 @@ function AddEventForm(props) {
     // eslint-disable-next-line
   }, []);
   return (
-    <div style = {{paddingTop : "50px"}}>
+    <div style={{ paddingTop: "50px" }}>
       <Card style={{ paddingTop: "10px", width: "60%", marginLeft: "20%" }}>
         <h3 style={{ padding: "10px" }}>Add Event!</h3>
         <div
@@ -40,10 +69,25 @@ function AddEventForm(props) {
             label="Description"
             name="Description"
           />
-          <Fab color="#000" style={{ padding: "5px" }}>
+          <Fab onClick={handleClick} color="#000" style={{ padding: "5px" }}>
             &nbsp;<span style={{ fontSize: "24px" }}>&#9729;</span>
             &nbsp;Upload Event Image&nbsp;
           </Fab>
+          <input
+            type="file"
+            ref={hiddenFileInput}
+            onChange={handleChange}
+            style={{ display: "none" }}
+          />
+          {src !== "#" ? (
+            <img
+              id="blah"
+              height={225}
+              width={225}
+              alt = "helloooooooooooooooo"
+              src={src}
+            />
+          ) : null}
           <div style={{ padding: "18px" }}>
             <Button>Add Event</Button>
           </div>

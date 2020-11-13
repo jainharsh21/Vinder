@@ -1,4 +1,3 @@
-import { Link } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import { Fab } from "ui-neumorphism";
 import MiniEventCard from "./MiniEventCard";
@@ -48,7 +47,7 @@ function StudentChapterHome(props) {
       <div>
         <Fab
           onClick={() => {
-            props.history.replace("/addEventForm");
+            props.history.replace("/add_event");
           }}
           size="large"
           right

@@ -1,10 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { storage } from "./firebase";
 import { Button, Card, Fab, TextArea, TextField } from "ui-neumorphism";
 
 function AddEventForm(props) {
+  const [image, setImage] = useState(null);
   const [file, setFile] = useState([]);
   const [src, setSrc] = useState("#");
   const hiddenFileInput = useRef(null);
+  const [url, setUrl] = useState("");
+  const [progress, setProgress] = useState(0);
 
   const previewer = useCallback((input) => {
     var reader = new FileReader();
@@ -29,10 +33,38 @@ function AddEventForm(props) {
     (event) => {
       const fileUploaded = event.target.files[0];
       previewer(fileUploaded);
+      setImage(fileUploaded);
       setFile(fileUploaded);
     },
     [previewer]
   );
+
+  const handleUpload = () => {
+    console.log("in func");
+    const uploadTask = storage.ref(`events/${image.name}`).put(image);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(progress);
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        storage
+          .ref("images")
+          .child(image.name)
+          .getDownloadURL()
+          .then((url) => {
+            setUrl(url);
+          });
+      }
+    );
+    console.log(url);
+  };
 
   useEffect(() => {
     const userData = JSON.parse(window.localStorage.getItem("userData"));
@@ -93,7 +125,7 @@ function AddEventForm(props) {
             />
           ) : null}
           <div style={{ padding: "18px" }}>
-            <Button>Add Event</Button>
+            <Button onClick={handleUpload}>Add Event</Button>
           </div>
         </div>
       </Card>

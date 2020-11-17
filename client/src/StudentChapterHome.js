@@ -47,7 +47,7 @@ function StudentChapterHome(props) {
       <div>
         <Fab
           onClick={() => {
-            props.history.replace("/add_event");
+            props.history.push("/add_event");
           }}
           size="large"
           right

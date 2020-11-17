@@ -4,7 +4,6 @@ import { Button, Card, Fab, TextArea, TextField } from "ui-neumorphism";
 
 function AddEventForm(props) {
   const [image, setImage] = useState(null);
-  const [file, setFile] = useState([]);
   const [src, setSrc] = useState("#");
   const hiddenFileInput = useRef(null);
   const [url, setUrl] = useState("");
@@ -34,13 +33,11 @@ function AddEventForm(props) {
       const fileUploaded = event.target.files[0];
       previewer(fileUploaded);
       setImage(fileUploaded);
-      setFile(fileUploaded);
     },
     [previewer]
   );
 
-  const handleUpload = () => {
-    console.log("in func");
+  const handleSubmit = async () => {
     const uploadTask = storage.ref(`events/${image.name}`).put(image);
     uploadTask.on(
       "state_changed",
@@ -55,7 +52,54 @@ function AddEventForm(props) {
       },
       () => {
         storage
-          .ref("images")
+          .ref("events")
+          .child(image.name)
+          .getDownloadURL()
+          .then(async (url) => {
+            setUrl(url);
+            console.log(url);
+            const data = window.localStorage.getItem("userData");
+            const userData = JSON.parse(data);
+            console.log(userData);
+            const body = {
+              chp_id: userData.id,
+              name: document.getElementById("event_name").value,
+              summary: document.getElementById("summary").value,
+              description: document.getElementById("summary").value,
+              time: new Date().toISOString(),
+              imgUrl: url,
+            };
+            console.log(body);
+            try {
+              const data = await fetch(`http://localhost:4000/events`, {
+                method: "POST",
+                body: JSON.stringify(body),
+                headers: { "Content-Type": "application/json" },
+              })
+                .then((res) => res.json())
+                .catch((e) => console.log(e));
+              console.log(data);
+            } catch (error) {
+              console.log(error);
+            }
+            props.history.replace("/student_chapter_home");
+          });
+      }
+    );
+    // await handleUpload();
+  };
+
+  const handleUpload = () => {
+    const uploadTask = storage.ref(`events/${image.name}`).put(image);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {},
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        storage
+          .ref("events")
           .child(image.name)
           .getDownloadURL()
           .then((url) => {
@@ -92,7 +136,7 @@ function AddEventForm(props) {
           <TextField
             width={300}
             id="event_name"
-            label="Email Name"
+            label="Event Name"
             name="Event Name"
           />
           <TextField width={300} id="summary" label="Summary" name="Summary" />
@@ -125,7 +169,7 @@ function AddEventForm(props) {
             />
           ) : null}
           <div style={{ padding: "18px" }}>
-            <Button onClick={handleUpload}>Add Event</Button>
+            <Button onClick={handleSubmit}>Add Event</Button>
           </div>
         </div>
       </Card>
